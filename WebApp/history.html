@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html>
+	<head> 
+		<meta charset = "UTF-8"/>
+		<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+		<title> Kōan </title>
+		<link rel = "stylesheet" href = "koan.css"/>
+		<script src = "jquery.js"></script>
+	</head>
+
+	<body> 
+		<div id = "toolbar"> 
+			<ul>
+				<li id = "title"> Kōan </li>
+				<li><a href = "#">Updates</a></li>
+				<li><a href = "#">Historical Data</a></li>
+				<li><a href = "index.html">Monitor</a></li>
+			</ul>
+		</div>
+
+        <script>
+
+        </script>
+
+		<div id="container"></div> 
+        <script src="https://cdn.firebase.com/v0/firebase.js"></script> 
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> 
+        <script src="http://code.highcharts.com/highcharts.js"></script> 
+        
+        <script type = "text/javascript"> 
+            var DATAPOINTS = 100;
+            var chart;
+        
+            var fb = new Firebase("https://koan-cbd22.firebaseio.com/detailedprofiles"); 
+            fb.once("value", function(data) 
+            { 
+                var model = data.val(); 
+                var alphaSeries = [];
+                var betaSeries = [];
+
+
+
+                jQuery.each(model, function(name, val) 
+                {
+                    time = new Date(val.timestamp*1000)
+                    alphaSeries.push([time.toLocaleTimeString, val.alpha])
+                    betaSeries.push([time.toLocaleTimeString, val.beta])
+                });
+            
+                
+            
+                $('#container').highcharts(
+                { 
+                    chart: 
+                    { 
+                        type: 'line',
+                        animation: 'Highcharts.svg',
+                        events: {
+                            load: function () {
+                                var aseries = this.series[0];
+                                var bseries = this.series[1];
+                                setInterval( function() {
+                                    fb.once('child_added', function(snapshot, prevChildKey) {
+                                    var data = snapshot.val();
+                                    time = new Date(data.timestamp*1000)
+                                    aseries.addPoint([time.toLocaleTimeString, data.alpha], false, true);
+                                    bseries.addPoint([time.toLocaleTimeString, data.beta], false, true);
+                                });
+                                }, 1000)
+                            }
+                        }
+                    }, 
+                    
+                    title: { text: 'Live Data Feed' }, 
+
+                    
+                    xAxis: { type: 'datetime' }, 
+                    
+                    yAxis: { title: { text: 'Readouts' } }, 
+
+                    series: [
+                    {
+                        name: 'Alpha Readout',
+                        data: alphaSeries.sort(function(a, b)
+                        {
+                            return a[0] - b[0]
+                        }).slice(alphaSeries.length-DATAPOINTS)
+                    },
+
+                    {
+                        name: 'Beta Readout',
+                        data: betaSeries.sort(function(a, b)
+                        {
+                            return a[0] - b[0]
+                        }).slice(betaSeries.length-DATAPOINTS)
+                    }],
+                     
+                }); 
+                          
+            }); 
+            
+            /*
+
+            $(document).ready(function() 
+            {
+                chart = new Highcharts.Chart(
+                {
+                    chart: 
+                    {
+                        renderTo: 'container',
+                        defaultSeriesType: 'spline',
+                        events: 
+                        {
+                            load: requestData
+                        }
+                    },
+        
+                    title: 
+                    {
+                        text: 'Live Data Feed'
+                    },
+        
+                    xAxis: 
+                    {
+                        type: 'datetime',
+                        tickPixelInterval: 150,
+                        maxZoom: 20 * 1000
+                     },
+        
+                    yAxis: 
+                    {
+                        minPadding: 0.2,
+                        maxPadding: 0.2,
+                        title: {text: 'Value', margin: 80}
+                     },
+        
+                    series: [
+                    {
+                        type: 'line',
+                        name: 'Alpha Readout',
+                        data: alphaSeries.sort(function(a, b)
+                        {
+                            return a[0] - b[0]
+                        })
+                    },
+
+                    {
+                        type: 'line',
+                        name: 'Beta Readout',
+                        data: betaSeries.sort(function(a, b)
+                        {
+                            return a[0] - b[0]
+                        })
+                    }],
+                });
+            });
+
+            function requestData() 
+            {
+                $.ajax(
+                {
+                    url: 'https://koan-cbd22.firebaseio.com/detailedprofiles',
+                    success: function(point) 
+                    {
+                        // shift = series.data.length > 20; 
+                        // shift if the series is  longer than 20
+
+                        // add the point
+                        alphaSeries.addPoint([val.timestamp, val.alpha], false, true);
+                        betaSeries.addPoint([val.timestamp, val.beta], false, true)
+            
+                        // call it again after one second
+                        setTimeout(requestData, 1000);    
+                    },
+                    cache: false
+                });
+            }
+
+            */
+
+        </script>
