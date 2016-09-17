@@ -21,148 +21,148 @@
         <script src="https://cdn.firebase.com/v0/firebase.js"></script> 
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> 
         <script src="http://code.highcharts.com/highcharts.js"></script> 
+        
         <script> 
+            var alphaSeries = [];
+            var betaSeries = []; 
+            var deltaSeries = [];
+            var gammaSeries = [];
+            var thetaSeries = [];
 
-        var alphaSeries = [];
-        var betaSeries = []; 
-        var deltaSeries = [];
-        var gammaSeries = [];
-        var thetaSeries = [];
-
-        jQuery.ajax(
-        {
-            dataType: "json",
-            url: "https://koan-cbd22.firebaseio.com/detailedprofiles.json",
-            data: 'orderBy="timestamp"&limitToLast=50',
-            success: function(data)
+            jQuery.ajax(
             {
-                jQuery.each(data, function(name, val) 
+                dataType: "json",
+                url: "https://koan-cbd22.firebaseio.com/detailedprofiles.json",
+                data: 'orderBy="timestamp"&limitToLast=50',
+                success: function(data)
                 {
-                    alphaSeries.push({ x: val.timestamp, y: val.alpha });
-                    betaSeries.push({ x: val.timestamp, y: val.beta });
-                });
-            }
-        });
-
-        Highcharts.setOptions(
-        {
-            global: {
-                useUTC: false
-            }
-        });
-
-        $('#container').highcharts(
-        {
-            chart: 
-            {
-                type: 'spline',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-                events: 
-                {
-                    load: function () 
+                    jQuery.each(data, function(name, val) 
                     {
-                        var aseries = this.series[0];
-                        var bseries = this.series[1];
-                        var dseries = this.series[2];
-                        var gseries = this.series[3];
-                        var tseries = this.series[4];
-                        // set up the updating of the chart each second
-                        
-                        setInterval(function () 
-                        {
-                            // var x = (new Date()).getTime(), // current time
-                            //     y = Math.random();
-                            // series.addPoint([x, y], true, true);
-                            jQuery.ajax(
-                            {
-                                dataType: "json",
-                                url: "https://koan-cbd22.firebaseio.com/detailedprofiles.json",
-                                data: 'orderBy="timestamp"&limitToLast=1',
-                                success: function(data)
-                                {
-                                    jQuery.each(data, function(name, val) 
-                                    {
-                                        aseries.addPoint([val.timestamp, val.alpha], true, false);
-                                        bseries.addPoint([val.timestamp, val.beta], true, false);
-                                        dseries.addPoint([val.timestamp, val.delta], true, false);
-                                        gseries.addPoint([val.timestamp, val.gamma], true, false);
-                                        tseries.addPoint([val.timestamp, val.theta], true, false);
-                                        //series.addPoint([val.timestamp, val.alpha], true, false);
-                                    });
-                                }
-                            });
-                        }, 1000);
-                    }
+                        alphaSeries.push({ x: val.timestamp, y: val.alpha });
+                        betaSeries.push({ x: val.timestamp, y: val.beta });
+                    });
                 }
-            },
+            });
 
-            title: {
-                text: 'Live EEG Waves'
-            },
-
-            xAxis: {
-                type: 'datetime',
-                tickPixelInterval: 150
-            },
-
-            yAxis: 
+            Highcharts.setOptions(
             {
-                title: {
-                    text: 'Value'
+                global: {
+                useUTC: false
+                }
+            });
+
+            $('#container').highcharts(
+            {
+                chart: 
+                {
+                    type: 'spline',
+                    animation: Highcharts.svg, // don't animate in old IE
+                    marginRight: 10,
+                    events: 
+                    {
+                        load: function () 
+                        {
+                            var aseries = this.series[0];
+                            var bseries = this.series[1];
+                            var dseries = this.series[2];
+                            var gseries = this.series[3];
+                            var tseries = this.series[4];
+                            // set up the updating of the chart each second
+                        
+                            setInterval(function () 
+                            {
+                                // var x = (new Date()).getTime(), // current time
+                                //     y = Math.random();
+                                // series.addPoint([x, y], true, true);
+                                jQuery.ajax(
+                                {
+                                    dataType: "json",
+                                    url: "https://koan-cbd22.firebaseio.com/detailedprofiles.json",
+                                    data: 'orderBy="timestamp"&limitToLast=1',
+                                    success: function(data)
+                                    {
+                                        jQuery.each(data, function(name, val) 
+                                        {
+                                            aseries.addPoint([val.timestamp, val.alpha], true, false);
+                                            bseries.addPoint([val.timestamp, val.beta], true, false);
+                                            dseries.addPoint([val.timestamp, val.delta], true, false);
+                                            gseries.addPoint([val.timestamp, val.gamma], true, false);
+                                            tseries.addPoint([val.timestamp, val.theta], true, false);
+                                        //series.addPoint([val.timestamp, val.alpha], true, false);
+                                        });
+                                    }
+                                });
+                            }, 1000);
+                        }
+                    }
                 },
 
-                plotLines: [
+                title: {
+                    text: 'Live EEG Waves'
+                },
+
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval: 150
+                },
+
+                yAxis: 
                 {
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
+                    title: {
+                        text: 'Value'
+                    },
+
+                    plotLines: [
+                    {
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+
+                tooltip: 
+                {
+                    formatter: function () 
+                    {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                            Highcharts.numberFormat(this.y, 2);
+                    }   
+                },
+
+                legend: {
+                    enabled: true
+                },
+
+                exporting: {
+                    enabled: false
+                },
+
+                series: [
+                {
+                    name: 'Alpha',
+                    data: alphaSeries
+                },
+
+                {
+                    name: 'Beta',
+                    data: betaSeries
+                },
+
+                {
+                    name: 'Delta',
+                    data: deltaSeries
+                },
+
+                {
+                    name: 'Gamma',
+                    data: gammaSeries
+                },
+
+                {
+                    name: 'Theta',
+                    data: thetaSeries
                 }]
-            },
-
-            tooltip: 
-            {
-                formatter: function () 
-                {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-
-            legend: {
-                enabled: true
-            },
-
-            exporting: {
-                enabled: false
-            },
-
-            series: [
-            {
-                name: 'Alpha',
-                data: alphaSeries
-            },
-
-            {
-                name: 'Beta',
-                data: betaSeries
-            },
-
-            {
-                name: 'Delta',
-                data: deltaSeries
-            },
-
-            {
-                name: 'Gamma',
-                data: gammaSeries
-            },
-
-            {
-                name: 'Theta',
-                data: thetaSeries
-            }]
-        });
+            });
                   
-</script>
+        </script>
