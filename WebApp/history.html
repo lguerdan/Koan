@@ -23,7 +23,7 @@
 
         </script>
 
-		<div id="container"></div> 
+		<div id="container1"></div> 
         <script src="https://cdn.firebase.com/v0/firebase.js"></script> 
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> 
         <script src="http://code.highcharts.com/highcharts.js"></script> 
@@ -38,6 +38,9 @@
                 var model = data.val(); 
                 var alphaSeries = [];
                 var betaSeries = [];
+                var deltaSeries = [];
+                var gammaSeries = [];
+                var thetaSeries = [];
 
 
 
@@ -46,38 +49,45 @@
                     time = new Date(val.timestamp*1000)
                     alphaSeries.push([time.toLocaleTimeString, val.alpha])
                     betaSeries.push([time.toLocaleTimeString, val.beta])
+                    deltaSeries.push([time.toLocaleTimeString, val.delta])
+                    gammaSeries.push([time.toLocaleTimeString, val.gamma])
+                    thetaSeries.push([time.toLocaleTimeString, val.theta])
+
                 });
             
                 
             
-                $('#container').highcharts(
+                $('#container1').highcharts(
                 { 
                     chart: 
                     { 
                         type: 'line',
-                        animation: 'Highcharts.svg',
-                        events: {
-                            load: function () {
-                                var aseries = this.series[0];
-                                var bseries = this.series[1];
-                                setInterval( function() {
-                                    fb.once('child_added', function(snapshot, prevChildKey) {
-                                    var data = snapshot.val();
-                                    time = new Date(data.timestamp*1000)
-                                    aseries.addPoint([time.toLocaleTimeString, data.alpha], false, true);
-                                    bseries.addPoint([time.toLocaleTimeString, data.beta], false, true);
-                                });
-                                }, 1000)
-                            }
-                        }
+                        backgroundColor: null,
+
                     }, 
                     
-                    title: { text: 'Live Data Feed' }, 
+                    title: 
+                    { 
+                        text: 'Behaviour History',
+                        style: 
+                        {
+                            fontFamily: "Quicksand-regular",
+                            fontSize: "30px",
+                            color: "#778899"
+                        }
+                    }, 
 
                     
                     xAxis: { type: 'datetime' }, 
                     
                     yAxis: { title: { text: 'Readouts' } }, 
+                    plotOptions:{
+                        series:{
+                            marker:{
+                                enabled: false
+                            }
+                        }
+                    },
 
                     series: [
                     {
@@ -94,8 +104,31 @@
                         {
                             return a[0] - b[0]
                         }).slice(betaSeries.length-DATAPOINTS)
-                    }],
-                     
+                    },
+
+                    {
+                        name: 'Delta Readout',
+                        data: deltaSeries.sort(function(a, b)
+                        {
+                            return a[0] - b[0]
+                        }).slice(deltaSeries.length - DATAPOINTS)
+                    },
+
+                    {
+                        name: 'Gamma Readout',
+                        data: gammaSeries.sort(function(a, b)
+                        {
+                            return a[0] - b[0]
+                        }).slice(gammaSeries.length - DATAPOINTS)
+                    },
+
+                    {
+                        name: 'Theta Readout',
+                        data: thetaSeries.sort(function(a, b)
+                        {
+                            return a[0] - b[0]
+                        }).slice(deltaSeries.length - DATAPOINTS)
+                    }]         
                 }); 
                           
             }); 
