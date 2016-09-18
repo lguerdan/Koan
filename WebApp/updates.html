@@ -1,20 +1,122 @@
-
 <html>
-	<head> 
-		<meta charset = "UTF-8"/>
-		<meta name = "viewport" content = "width = device-width, initial-scale = 1">
-		<title> Kōan </title>
-		<link rel = "stylesheet" href = "koan.css"/>
-		<script src = "jquery.js"></script>
-	</head>
 
-	<body> 
-		<div id = "toolbar"> 
-			<ul>
-				<li id = "title"> Kōan </li>
-				<li><a href = "#">Updates</a></li>
-				<li><a href = "history.html">Historical Data</a></li>
-				<li><a href = "index.html">Monitor</a></li>
-			</ul>
-		</div>
-	</body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <title>Koan</title>
+    <link rel="stylesheet" href="koan.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <style type="text/css">
+    h1 {
+        font-family: 'Quicksand';
+        font-size: 50px;
+        letter-spacing: 3px;
+        color: #FF2F4C;
+        text-align: center;
+    }
+    strong{
+   font-weight:bold;
+   }
+
+    h3 {
+        font-family: 'Quicksand';
+        text-align: center;
+        font-size: 30px;
+        letter-spacing: 3px;
+        color: #FF2F4C;
+    }
+
+    pre {
+        font-family: 'Quicksand';
+        color: grey;
+        font-size: 20px;
+        text-align: center;
+    }
+    ul{
+      font-family: 'Quicksand';
+      color: grey;
+      background-color: #778899;
+    }
+
+    p {
+        font-family: 'Quicksand';
+        color: grey;
+    }
+    #pbig {
+      font-family: 'Quicksand';
+      color: grey;
+      font-size: 20px;
+      text-align: justify;
+    }
+
+    #content {
+        text-align: center;
+        margin: auto;
+        width: 75%;
+        display: block;
+
+    }
+    #col1{
+      float: left;
+      margin: auto;
+      width: 36%;
+      text-align: justify;
+      padding: 8px;
+    }
+    #col2{
+      float: left;
+      margin: auto;
+      width: 35%;
+      padding: 8px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="toolbar">
+        <ul>
+            <li id="title"> KOAN </li>
+            <li><a href="#">Updates</a></li>
+            <li><a href="history.html">Historical Data</a></li>
+            <li><a href="index.html">Monitor</a></li>
+        </ul>
+    </div>
+    <h1>Beyond the Band</h1>
+    <div style="text-align: center;">
+         <img style= "width: 20%; " "height: 20%; " src = "http://www.choosemuse.com/wp-content/uploads/2014/10/muse_logo_noTag1.png ">
+    </div>
+      <div id = 'content' style = 'height:fill;'>
+         <p id = pBig>Nearly <a href ="http://www.sciencedirect.com/science/article/pii/S0169260712001770"> $23 billion dollars </a>are spent treating anxiety and panic disorders in the United States of America each year
+         treating physical symptoms of distress without tackling the root of the problem - underlying cognitive state.
+         Koan is a project to empower people to discover more about the triggers and side-effects of panic attacks. Our <em>mobile SMS intervention</em> is a first step in identifying a panic attack. <pre><u>These strategiess may also help: </u></pre>
+
+
+         <pre style = "text-align: center" id = 'pBig'>
+         1. Acknowledge the panic attack. <br>
+         2. Attempt to make self more comfortable (listen to music, count breaths, etc.)<br>
+         3. Continue doing what you were doing before as best as you can.<br>
+         4. Contact a trusted family member or friend who understands your condition.<br>
+         </p>
+
+      </div>
+
+      <div id = 'content'>
+         <h3>Research</h3>
+         <div id = 'col1'>
+         <p>The original inspiration for the Koan project came from <a href = "http://www.sciencedirect.com/science/article/pii/S0169260712001770 " target ='_'>this</a> publication on
+         methods of stress detection using electroencephalogram (EEG) data. Because these waves represent differing levels of mental activity,
+         their relative frequency can be used to detect distress such as panic attacks.<br>
+         Once data is collected from the Muse and processed, we utilize frequency band variability and relative signal strengths to detect changes in mental activity.
+         This approach was influenced by <a href = "http://www.sciencedirect.com/science/article/pii/S0149763414003492 ">work on microstates and classification algorithmns.</a>
+         Once we detect abnormal variations in EEG signal, especially changes in gamma wave frequency, we reach out to the user to learn more and intervene if neccessary.</p>
+         </div>
+         <div id = 'col2'>
+            <img src = "http://www.electronicspecifier.com/cms/images/Brainwaves.jpg ">
+         </div>
+      </div>
+      <br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \><br \>
+
+
+   </body>
+</html>

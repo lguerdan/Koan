@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 
 <html>
-	<head> 
+	<head>
 		<meta charset = "UTF-8"/>
 		<meta name = "viewport" content = "width = device-width, initial-scale = 1">
-		<title> Kōan </title>
-		<link rel = "stylesheet" href = "koan.css"/>
+		<title> Koan </title>
+      <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+      <link rel = "stylesheet" href = "koan.css"/>
 		<script src = "jquery.js"></script>
 	</head>
 
-	<body> 
-		<div id = "toolbar"> 
+	<body>
+		<div id = "toolbar">
 			<ul>
-				<li id = "title"> Kōan </li>
+				<li id = "title"> KOAN </li>
 				<li><a href = "updates.html">Updates</a></li>
 				<li><a href = "#">Historical Data</a></li>
 				<li><a href = "index.html">Monitor</a></li>
@@ -23,19 +24,19 @@
 
         </script>
 
-		<div id="container1"></div> 
-        <script src="https://cdn.firebase.com/v0/firebase.js"></script> 
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> 
-        <script src="http://code.highcharts.com/highcharts.js"></script> 
-        
-        <script type = "text/javascript"> 
+		<div id="container1"></div>
+        <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+
+        <script type = "text/javascript">
             var DATAPOINTS = 100;
             var chart;
-        
-            var fb = new Firebase("https://koan-cbd22.firebaseio.com/detailedprofiles"); 
-            fb.once("value", function(data) 
-            { 
-                var model = data.val(); 
+
+            var fb = new Firebase("https://koan-cbd22.firebaseio.com/detailedprofiles");
+            fb.once("value", function(data)
+            {
+                var model = data.val();
                 var alphaSeries = [];
                 var betaSeries = [];
                 var deltaSeries = [];
@@ -44,7 +45,7 @@
 
 
 
-                jQuery.each(model, function(name, val) 
+                jQuery.each(model, function(name, val)
                 {
                     time = new Date(val.timestamp*1000)
                     alphaSeries.push([time.toLocaleTimeString, val.alpha])
@@ -54,33 +55,33 @@
                     thetaSeries.push([time.toLocaleTimeString, val.theta])
 
                 });
-            
-                
-            
+
+
+
                 $('#container1').highcharts(
-                { 
-                    chart: 
-                    { 
+                {
+                    chart:
+                    {
                         type: 'line',
                         backgroundColor: null,
 
-                    }, 
-                    
-                    title: 
-                    { 
+                    },
+
+                    title:
+                    {
                         text: 'Behaviour History',
-                        style: 
+                        style:
                         {
-                            fontFamily: "Quicksand-regular",
+                            fontFamily: "Quicksand",
                             fontSize: "30px",
                             color: "#778899"
                         }
-                    }, 
+                    },
 
-                    
-                    xAxis: { type: 'datetime' }, 
-                    
-                    yAxis: { title: { text: 'Readouts' } }, 
+
+                    xAxis: { type: 'datetime' },
+
+                    yAxis: { title: { text: 'Readouts' } },
                     plotOptions:{
                         series:{
                             marker:{
@@ -92,6 +93,7 @@
                     series: [
                     {
                         name: 'Alpha Readout',
+                        fontFamily: "Quicksand",
                         data: alphaSeries.sort(function(a, b)
                         {
                             return a[0] - b[0]
@@ -100,6 +102,7 @@
 
                     {
                         name: 'Beta Readout',
+                        fontFamily: "Quicksand",
                         data: betaSeries.sort(function(a, b)
                         {
                             return a[0] - b[0]
@@ -108,6 +111,7 @@
 
                     {
                         name: 'Delta Readout',
+                        fontFamily: "Quicksand",
                         data: deltaSeries.sort(function(a, b)
                         {
                             return a[0] - b[0]
@@ -116,6 +120,7 @@
 
                     {
                         name: 'Gamma Readout',
+                        fontFamily: "Quicksand",
                         data: gammaSeries.sort(function(a, b)
                         {
                             return a[0] - b[0]
@@ -124,50 +129,51 @@
 
                     {
                         name: 'Theta Readout',
+                        fontFamily: "Quicksand",
                         data: thetaSeries.sort(function(a, b)
                         {
                             return a[0] - b[0]
                         }).slice(deltaSeries.length - DATAPOINTS)
-                    }]         
-                }); 
-                          
-            }); 
-            
+                    }]
+                });
+
+            });
+
             /*
 
-            $(document).ready(function() 
+            $(document).ready(function()
             {
                 chart = new Highcharts.Chart(
                 {
-                    chart: 
+                    chart:
                     {
                         renderTo: 'container',
                         defaultSeriesType: 'spline',
-                        events: 
+                        events:
                         {
                             load: requestData
                         }
                     },
-        
-                    title: 
+
+                    title:
                     {
                         text: 'Live Data Feed'
                     },
-        
-                    xAxis: 
+
+                    xAxis:
                     {
                         type: 'datetime',
                         tickPixelInterval: 150,
                         maxZoom: 20 * 1000
                      },
-        
-                    yAxis: 
+
+                    yAxis:
                     {
                         minPadding: 0.2,
                         maxPadding: 0.2,
                         title: {text: 'Value', margin: 80}
                      },
-        
+
                     series: [
                     {
                         type: 'line',
@@ -189,22 +195,22 @@
                 });
             });
 
-            function requestData() 
+            function requestData()
             {
                 $.ajax(
                 {
                     url: 'https://koan-cbd22.firebaseio.com/detailedprofiles',
-                    success: function(point) 
+                    success: function(point)
                     {
-                        // shift = series.data.length > 20; 
+                        // shift = series.data.length > 20;
                         // shift if the series is  longer than 20
 
                         // add the point
                         alphaSeries.addPoint([val.timestamp, val.alpha], false, true);
                         betaSeries.addPoint([val.timestamp, val.beta], false, true)
-            
+
                         // call it again after one second
-                        setTimeout(requestData, 1000);    
+                        setTimeout(requestData, 1000);
                     },
                     cache: false
                 });
