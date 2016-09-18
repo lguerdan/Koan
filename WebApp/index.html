@@ -1,16 +1,18 @@
 <html>
-    <head> 
+    <head>
         <meta charset = "UTF-8"/>
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
-        <title> Kōan </title>
+        <title> Koan </title>
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
         <link rel = "stylesheet" href = "koan.css"/>
-        <script src = "jquery.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
     </head>
 
-    <body> 
-        <div id = "toolbar"> 
+    <body>
+        <div id = "toolbar">
             <ul>
-                <li id = "title"> Kōan </li>
+                <li id = "title"> KOAN </li>
                 <li><a href = "updates.html">Updates</a></li>
                 <li><a href = "history.html">Historical Data</a></li>
                 <li><a href = "#">Monitor</a></li>
@@ -34,16 +36,16 @@
         });
         </script>
 
-        <div id="container1" style="width:100%; height:400px;"></div> 
-        <script src="https://cdn.firebase.com/v0/firebase.js"></script> 
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> 
-        <script src="http://code.highcharts.com/highcharts.js"></script> 
+        <div id="container1" style="width:100%; height:400px;"></div>
+        <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
 
 
-        <script> 
-        // ================================== BUILD GRAPH 1 
+        <script>
+        // ================================== BUILD GRAPH 1
             var alphaSeries = [];
-            var betaSeries = []; 
+            var betaSeries = [];
             var deltaSeries = [];
             var gammaSeries = [];
             var thetaSeries = [];
@@ -55,7 +57,7 @@
                 data: 'orderBy="timestamp"&limitToLast=50',
                 success: function(data)
                 {
-                    jQuery.each(data, function(name, val) 
+                    jQuery.each(data, function(name, val)
                     {
                         alphaSeries.push({ x: val.timestamp, y: val.alpha });
                         betaSeries.push({ x: val.timestamp, y: val.beta });
@@ -72,16 +74,16 @@
 
             $('#container1').highcharts(
             {
-                chart: 
+                chart:
                 {
                     type: 'spline',
                     animation: Highcharts.svg, // don't animate in old IE
                     marginRight: 10,
                     backgroundColor: null,
-                    style: { fontFamily: "Quicksand-regular" },
-                    events: 
+                    style: { fontFamily: "Quicksand" },
+                    events:
                     {
-                        load: function () 
+                        load: function ()
                         {
                             var aseries = this.series[0];
                             var bseries = this.series[1];
@@ -92,7 +94,7 @@
                             var shiftCtr = 0;
                             var shiftValue = false;
 
-                            setInterval(function () 
+                            setInterval(function ()
                             {
                                 // var x = (new Date()).getTime(), // current time
                                 //     y = Math.random();
@@ -114,7 +116,7 @@
                                     data: 'orderBy="timestamp"&limitToLast=1',
                                     success: function(data)
                                     {
-                                        jQuery.each(data, function(name, val) 
+                                        jQuery.each(data, function(name, val)
                                         {
                                             aseries.addPoint([val.timestamp, val.alpha], true, shiftValue);
                                             bseries.addPoint([val.timestamp, val.beta], true, shiftValue);
@@ -130,11 +132,11 @@
                     }
                 },
 
-                title: 
+                title:
                 {
                     text: 'Live EEG Waves',
-                    style: 
-                    { 
+                    style:
+                    {
                         fontSize: "30px",
                         color: "#778899"
                     }
@@ -145,7 +147,7 @@
                     tickPixelInterval: 150
                 },
 
-                yAxis: 
+                yAxis:
                 {
                     title: {
                         text: 'Value'
@@ -159,14 +161,14 @@
                     }]
                 },
 
-                tooltip: 
+                tooltip:
                 {
-                    formatter: function () 
+                    formatter: function ()
                     {
                         return '<b>' + this.series.name + '</b><br/>' +
                             Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
                             Highcharts.numberFormat(this.y, 2);
-                    }   
+                    }
                 },
 
                 legend: {
@@ -177,11 +179,11 @@
                     enabled: false
                 },
 
-                plotOptions: 
+                plotOptions:
                 {
-                    series: 
+                    series:
                     {
-                        marker: 
+                        marker:
                         {
                             enabled: false
                         }
@@ -223,53 +225,53 @@
 
         <div id = "container2">
             <script>
-                $(function () 
+                $(function ()
                 {
                     $('#container2').highcharts(
                     {
-                        chart: 
+                        chart:
                         {
                             backgroundColor: null,
                             plotBorderWidth: null,
                             plotShadow: false,
                             type: 'pie',
                         },
-                    
-                        title: 
+
+                        title:
                         {
                             text: 'Running Average',
-                            style: 
+                            style:
                             {
-                                fontFamily: "Quicksand-regular",
+                                fontFamily: "Quicksand",
                                 color: "#778899",
                                 fontSize: "30px"
                             }
                         },
-                        
-                        tooltip: 
+
+                        tooltip:
                         {
                             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                         },
 
-                        plotOptions: 
+                        plotOptions:
                         {
-                            pie: 
-                            {   
+                            pie:
+                            {
                                 animation: false,
                                 allowPointSelect: true,
                                 cursor: 'pointer',
-                                dataLabels: 
+                                dataLabels:
                                 {
                                     enabled: true,
                                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                    style: 
+                                    style:
                                     {
                                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                                     }
                                  }
                             }
                         },
-                        
+
                         series: [
                         {
                             name: 'EEG Waves',
@@ -278,28 +280,28 @@
                             {
                                 name: 'Microsoft Internet Explorer',
                                 y: 56.33
-                            }, 
+                            },
 
                             {
                                 name: 'Chrome',
                                 y: 24.03,
                                 selected: true
-                            }, 
+                            },
 
                             {
                                 name: 'Firefox',
                                 y: 10.38
-                            }, 
+                            },
 
                             {
                                 name: 'Safari',
                                 y: 4.77
-                            }, 
+                            },
 
                             {
                                 name: 'Opera',
                                 y: 0.91
-                            }, 
+                            },
 
                             {
                                 name: 'Proprietary or Undetectable',
@@ -309,7 +311,7 @@
                     });
                 });
             </script>
-        
+
 
         </div>
 
