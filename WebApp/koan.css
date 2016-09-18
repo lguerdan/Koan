@@ -2,7 +2,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	font-family: "Quicksand-Regular";
-	background-color:;
+	background-color: #FCFBF5;
 }
 
 #title {
@@ -44,8 +44,32 @@ li a:hover {
     transition: all 0.3s ease-in-out;
 }
 
-#container {
+#container1 {
 	width: 100%;
     height: 400px;
     margin-top: 50px;
+    background-color: #FCFBF5 ;
+}
+
+#container2 {
+    float: left;
+    width: 50%;
+    height: 400px;
+    overflow: hidden;
+    margin-top: 50px;
+}
+
+#container3 {
+    float: left;
+    width: 50%;
+    height: 400px;
+    overflow: hidden;
+    margin-top: 50px;
+}
+
+#title2 {
+   font-size: 30px;
+   text-align: center;
+    color: #778899;
+
 }
